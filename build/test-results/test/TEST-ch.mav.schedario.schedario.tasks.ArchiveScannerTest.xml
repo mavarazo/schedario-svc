@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="ch.mav.schedario.schedario.tasks.ArchiveScannerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-07-01T19:13:17" hostname="endeavour" time="0.183">
+  <properties/>
+  <testcase name="[1] path=null" classname="ch.mav.schedario.schedario.tasks.ArchiveScannerTest" time="0.159"/>
+  <testcase name="[2] path=" classname="ch.mav.schedario.schedario.tasks.ArchiveScannerTest" time="0.003"/>
+  <testcase name="discover_files_from_archive()" classname="ch.mav.schedario.schedario.tasks.ArchiveScannerTest" time="0.018"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[[Test worker] WARN ch.mav.schedario.schedario.tasks.ArchiveScanner - No archive specified
+[Test worker] WARN ch.mav.schedario.schedario.tasks.ArchiveScanner - No archive specified
+[Test worker] INFO ch.mav.schedario.schedario.tasks.ArchiveScanner - Discover files in '/home/mav/Development/schedario/schedario-svc/build/resources/test/test-archive'
+]]></system-err>
+</testsuite>

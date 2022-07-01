@@ -1,0 +1,78 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'org.openapi.generator' version '5.3.0'
+}
+
+group = 'mav.schedario'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+dependencies {
+    annotationProcessor 'org.projectlombok:lombok'
+    compileOnly 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-hateoas'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web-services'
+
+    implementation 'org.liquibase:liquibase-core'
+
+    implementation 'org.openapitools:jackson-databind-nullable:0.2.2'
+    implementation 'org.openapitools:openapi-generator-gradle-plugin:6.0.0'
+
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
+
+    runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.awaitility:awaitility:4.2.0'
+    testImplementation 'org.awaitility:awaitility-proxy:3.1.6'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+def spec = "${rootDir}/src/main/resources/api.yaml"
+def generatedSources = "${buildDir}/generated/openapi"
+
+openApiGenerate {
+    generatorName = 'spring'
+    inputSpec = spec
+    outputDir = generatedSources
+
+    apiPackage = 'ch.mav.schedario.api'
+    modelPackage = 'ch.mav.schedario.api.model'
+    configOptions = [
+            dateLibrary: 'java8',
+            interfaceOnly: 'true'
+    ]
+}
+
+compileJava.dependsOn tasks.openApiGenerate
+
+sourceSets.main.java.srcDir "$generatedSources/src/main/java"
+
+
+

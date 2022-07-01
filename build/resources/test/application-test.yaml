@@ -1,0 +1,4 @@
+schedario:
+  archive:
+    path: 'classpath:/test-archive'
+    cron: '-'

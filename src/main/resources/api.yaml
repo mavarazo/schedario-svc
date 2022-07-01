@@ -1,0 +1,72 @@
+openapi: 3.0.3
+info:
+  title: Prestito
+  description: Prestito
+  version: 1.0.0
+tags:
+  - File
+
+paths:
+  /v1/files:
+    get:
+      description: return all files
+      tags:
+        - File
+      operationId: getFiles
+      responses:
+        '200':
+          description: a list of files
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FileDto'
+
+components:
+  parameters:
+    ProductId:
+      name: productId
+      in: path
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FileDto'
+
+  responses:
+    NotFound:
+      description: The specified resource was not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorDto'
+
+  schemas:
+    FileId:
+      type: integer
+      format: int64
+      readOnly: true
+
+    FileDto:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/FileId'
+        created_date:
+          type: string
+          format: date-time
+        modified_date:
+          type: string
+          format: date-time
+        title:
+          type: string
+        notes:
+          type: string
+        path:
+          type: string
+        size:
+          type: integer
+        created:
+          type: string
+          format: date-time
