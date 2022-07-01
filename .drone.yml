@@ -2,7 +2,7 @@ kind: pipeline
 name: default
 
 steps:
-  - name: 'build & test'
+  - name: bild and test
     image: gradle:7.4.2-jdk17
     commands:
       - gradle build
@@ -16,3 +16,12 @@ steps:
         include:
           - push
           - pull_request
+
+  - name: build image
+    image: gradle:7.4.2-jdk17
+    commands:
+      - gradle bootBuildImage --imageName=192.168.178.10:10130/schedario-svc:latest --publishImage
+    when:
+      branch:
+        include:
+          - main
