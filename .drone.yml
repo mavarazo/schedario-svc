@@ -2,10 +2,10 @@ kind: pipeline
 name: default
 
 steps:
-  - name: build
+  - name: 'build & test'
     image: gradle:7.4.2-jdk17
     commands:
-      - ./gradlew clean build
+      - gradle build
     when:
       branch:
         include:
