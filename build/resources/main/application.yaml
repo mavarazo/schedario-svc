@@ -1,6 +1,0 @@
-server:
-  port: 8001
-
-spring:
-  web:
-    locale: en_US

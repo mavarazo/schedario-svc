@@ -74,5 +74,14 @@ compileJava.dependsOn tasks.openApiGenerate
 
 sourceSets.main.java.srcDir "$generatedSources/src/main/java"
 
-
+tasks.named("bootBuildImage") {
+    imageName = "192.168.178.10:10130/schedario/${project.name}"
+    docker {
+        publishRegistry {
+            username = "Marco"
+            password = "FIXME"
+            url = "https://192.168.178.10:10130"
+        }
+    }
+}
 
