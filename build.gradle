@@ -76,6 +76,7 @@ sourceSets.main.java.srcDir "$generatedSources/src/main/java"
 
 tasks.named("bootBuildImage") {
     imageName = "192.168.178.10:10130/schedario/${project.name}"
+    publish = true
     docker {
         publishRegistry {
             username = "Marco"

@@ -3,11 +3,13 @@ package ch.mav.schedario.schedario.model;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "files")
 @Builder(toBuilder = true)
 @Getter

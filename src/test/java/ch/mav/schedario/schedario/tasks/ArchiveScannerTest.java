@@ -54,11 +54,11 @@ class ArchiveScannerTest {
     final ArgumentCaptor<List<File>> fileArgument = ArgumentCaptor.forClass(List.class);
     verify(fileRepository).saveAllAndFlush(fileArgument.capture());
     assertThat(fileArgument.getValue())
-        .hasSize(1)
-        .singleElement()
-        .returns(3106909919L, File::getChecksum)
-        .doesNotReturn(null, File::getPath)
-        .returns(254353L, File::getSize)
-        .doesNotReturn(null, File::getCreated);
+            .hasSize(1)
+            .singleElement()
+            .returns(3106909919L, File::getChecksum)
+            .doesNotReturn(null, File::getPath)
+            .returns(254353L, File::getSize)
+            .doesNotReturn(null, File::getCreated);
   }
 }

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 
 import java.io.FileInputStream;
@@ -43,11 +44,15 @@ public class ArchiveScanner {
       return;
     }
 
-    log.info("Discover files in '{}'", archivePath);
+    log.info("Process files in '{}'", archivePath);
+    final StopWatch stopWatch = new StopWatch();
+    stopWatch.start();
     try (final Stream<Path> stream = Files.walk(Paths.get(archivePath), Integer.MAX_VALUE)) {
       final List<File> files =
-          stream.filter(file -> !Files.isDirectory(file)).map(this::createFile).toList();
+              stream.filter(file -> !Files.isDirectory(file)).map(this::createFile).toList();
       fileRepository.saveAllAndFlush(files);
+      stopWatch.stop();
+      log.info("Processed '{}' files in '{}' sec.", files.size(), stopWatch.getTotalTimeSeconds());
     } catch (final IOException ioex) {
       log.error("Unable to discover new files.", ioex);
     }
@@ -55,6 +60,7 @@ public class ArchiveScanner {
 
   @SneakyThrows
   private File createFile(final Path file) {
+    log.debug("Processing '{}'", file.toString());
     final BasicFileAttributes fileAttributes =
         Files.getFileAttributeView(file, BasicFileAttributeView.class).readAttributes();
     return File.builder()
@@ -79,7 +85,9 @@ public class ArchiveScanner {
         mb.get(bytes, 0, remaining);
         crc.update(bytes, 0, remaining);
       }
-      return crc.getValue();
+      final long checksum = crc.getValue();
+      log.debug("Calculated checksum '{}' of '{}'", checksum, file.getFileName());
+      return checksum;
     } catch (final IOException e) {
       log.warn(e.getMessage(), e);
     }
@@ -87,6 +95,8 @@ public class ArchiveScanner {
   }
 
   private OffsetDateTime fileTimeToDate(final FileTime fileTime) {
-    return fileTime.toInstant().atOffset(ZoneOffset.UTC);
+    final OffsetDateTime result = fileTime.toInstant().atOffset(ZoneOffset.UTC);
+    log.debug("Converted filetime '{}' to '{}'", fileTime, result);
+    return result;
   }
 }
