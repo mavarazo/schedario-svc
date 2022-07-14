@@ -1,9 +1,9 @@
-package ch.mav.schedario.schedario.controller;
+package ch.mav.schedario.controller;
 
 import ch.mav.schedario.api.V1Api;
 import ch.mav.schedario.api.model.FileDto;
-import ch.mav.schedario.schedario.mapper.FileMapper;
-import ch.mav.schedario.schedario.service.impl.FileServiceImpl;
+import ch.mav.schedario.mapper.FileMapper;
+import ch.mav.schedario.service.impl.FileServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;

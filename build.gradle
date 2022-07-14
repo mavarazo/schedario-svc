@@ -79,10 +79,9 @@ tasks.named("bootBuildImage") {
     publish = true
     docker {
         publishRegistry {
-            username = "Marco"
-            password = "FIXME"
+            username = System.getenv('ODIN_REGISTRY_USERNAME')
+            password = System.getenv('ODIN_REGISTRY_PASSWORD')
             url = "https://192.168.178.10:10130"
         }
     }
 }
-

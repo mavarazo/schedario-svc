@@ -1,7 +1,7 @@
-package ch.mav.schedario.schedario.tasks;
+package ch.mav.schedario.tasks;
 
-import ch.mav.schedario.schedario.model.File;
-import ch.mav.schedario.schedario.repository.FileRepository;
+import ch.mav.schedario.model.File;
+import ch.mav.schedario.repository.FileRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,8 +16,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ArchiveScannerTest {
@@ -60,5 +59,17 @@ class ArchiveScannerTest {
             .doesNotReturn(null, File::getPath)
             .returns(254353L, File::getSize)
             .doesNotReturn(null, File::getCreated);
+  }
+
+  @Test
+  void ignore_file_by_checksum() {
+    // arrange
+    doReturn(true).when(fileRepository).existsByChecksum(anyLong());
+
+    // act
+    sut.discoverFiles();
+
+    // assert
+    verify(fileRepository, never()).saveAllAndFlush(any());
   }
 }

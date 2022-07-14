@@ -1,7 +1,7 @@
-package ch.mav.schedario.schedario.mapper;
+package ch.mav.schedario.mapper;
 
 import ch.mav.schedario.api.model.FileDto;
-import ch.mav.schedario.schedario.model.File;
+import ch.mav.schedario.model.File;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 

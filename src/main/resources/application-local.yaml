@@ -1,0 +1,4 @@
+schedario:
+  archive:
+    path: '/home/mav/Development/schedario/schedario-svc/src/test/resources/test-archive'
+    cron: '1 * * * * *'

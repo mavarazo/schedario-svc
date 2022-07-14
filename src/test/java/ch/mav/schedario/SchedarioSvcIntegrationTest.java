@@ -1,4 +1,4 @@
-package ch.mav.schedario.schedario;
+package ch.mav.schedario;
 
 import ch.mav.schedario.api.model.FileDto;
 import org.assertj.core.api.InstanceOfAssertFactories;

@@ -1,7 +1,7 @@
-package ch.mav.schedario.schedario.tasks;
+package ch.mav.schedario.tasks;
 
-import ch.mav.schedario.schedario.model.File;
-import ch.mav.schedario.schedario.repository.FileRepository;
+import ch.mav.schedario.model.File;
+import ch.mav.schedario.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -48,9 +48,14 @@ public class ArchiveScanner {
     final StopWatch stopWatch = new StopWatch();
     stopWatch.start();
     try (final Stream<Path> stream = Files.walk(Paths.get(archivePath), Integer.MAX_VALUE)) {
-      final List<File> files =
-              stream.filter(file -> !Files.isDirectory(file)).map(this::createFile).toList();
-      fileRepository.saveAllAndFlush(files);
+      final List<File> files = stream
+              .filter(file -> !Files.isDirectory(file))
+              .map(this::createFile)
+              .filter(file -> !fileRepository.existsByChecksum(file.getChecksum()))
+              .toList();
+      if (!files.isEmpty()) {
+        fileRepository.saveAllAndFlush(files);
+      }
       stopWatch.stop();
       log.info("Processed '{}' files in '{}' sec.", files.size(), stopWatch.getTotalTimeSeconds());
     } catch (final IOException ioex) {

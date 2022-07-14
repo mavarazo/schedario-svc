@@ -1,7 +1,7 @@
-package ch.mav.schedario.schedario.service.impl;
+package ch.mav.schedario.service.impl;
 
-import ch.mav.schedario.schedario.model.File;
-import ch.mav.schedario.schedario.repository.FileRepository;
+import ch.mav.schedario.model.File;
+import ch.mav.schedario.repository.FileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

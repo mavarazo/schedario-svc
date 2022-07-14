@@ -1,7 +1,7 @@
-package ch.mav.schedario.schedario;
+package ch.mav.schedario;
 
-import ch.mav.schedario.schedario.controller.FileController;
-import ch.mav.schedario.schedario.tasks.ArchiveScanner;
+import ch.mav.schedario.controller.FileController;
+import ch.mav.schedario.tasks.ArchiveScanner;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

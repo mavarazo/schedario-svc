@@ -1,4 +1,4 @@
-package ch.mav.schedario.schedario;
+package ch.mav.schedario;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

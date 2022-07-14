@@ -1,4 +1,4 @@
-package ch.mav.schedario.schedario.model;
+package ch.mav.schedario.model;
 
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
