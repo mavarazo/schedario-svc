@@ -12,7 +12,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URL;
+import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -62,14 +64,31 @@ class ArchiveScannerTest {
   }
 
   @Test
-  void ignore_file_by_checksum() {
+  void update_file_by_checksum() {
     // arrange
-    doReturn(true).when(fileRepository).existsByChecksum(anyLong());
+    doReturn(Optional.of(File.builder()
+            .id(1L)
+            .createdDate(OffsetDateTime.MAX)
+            .checksum(3106909919L)
+            .path("bingo")
+            .size(254353L)
+            .created(OffsetDateTime.MIN)
+            .build())).when(fileRepository).findByChecksum(anyLong());
 
     // act
     sut.discoverFiles();
 
     // assert
-    verify(fileRepository, never()).saveAllAndFlush(any());
+    final ArgumentCaptor<List<File>> fileArgument = ArgumentCaptor.forClass(List.class);
+    verify(fileRepository).saveAllAndFlush(fileArgument.capture());
+    assertThat(fileArgument.getValue())
+            .hasSize(1)
+            .singleElement()
+            .returns(1L, File::getId)
+            .returns(OffsetDateTime.MAX, File::getCreatedDate)
+            .returns(3106909919L, File::getChecksum)
+            .doesNotReturn(null, File::getPath)
+            .returns(254353L, File::getSize)
+            .doesNotReturn(null, File::getCreated);
   }
 }

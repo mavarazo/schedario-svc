@@ -50,9 +50,9 @@ public class ArchiveScanner {
     try (final Stream<Path> stream = Files.walk(Paths.get(archivePath), Integer.MAX_VALUE)) {
       final List<File> files = stream
               .filter(file -> !Files.isDirectory(file))
-              .map(this::createFile)
-              .filter(file -> !fileRepository.existsByChecksum(file.getChecksum()))
+              .map(this::createOrUpdateFile)
               .toList();
+
       if (!files.isEmpty()) {
         fileRepository.saveAllAndFlush(files);
       }
@@ -64,16 +64,24 @@ public class ArchiveScanner {
   }
 
   @SneakyThrows
-  private File createFile(final Path file) {
+  private File createOrUpdateFile(final Path file) {
     log.debug("Processing '{}'", file.toString());
+    final long checksum = generateChecksum(file);
+
     final BasicFileAttributes fileAttributes =
-        Files.getFileAttributeView(file, BasicFileAttributeView.class).readAttributes();
-    return File.builder()
-        .checksum(generateChecksum(file))
-        .path(file.toString())
-        .size(fileAttributes.size())
-        .created(fileTimeToDate(fileAttributes.creationTime()))
-        .build();
+            Files.getFileAttributeView(file, BasicFileAttributeView.class).readAttributes();
+
+    return fileRepository.findByChecksum(checksum)
+            .map(f -> f.toBuilder()
+                    .path(file.toString())
+                    .size(fileAttributes.size())
+                    .build())
+            .orElse(File.builder()
+                    .checksum(checksum)
+                    .path(file.toString())
+                    .size(fileAttributes.size())
+                    .created(fileTimeToDate(fileAttributes.creationTime()))
+                    .build());
   }
 
   private long generateChecksum(final Path file) {
