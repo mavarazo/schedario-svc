@@ -37,10 +37,10 @@ public class ArchiveScanner {
 
   private final FileRepository fileRepository;
 
-  @Scheduled(cron = "${schedario.archive.cron}")
+  @Scheduled(cron = "${schedario.archive.scanner.cron}")
   public void discoverFiles() {
     if (!StringUtils.hasText(archivePath)) {
-      log.warn("No archive specified");
+      log.warn("No archive specified.");
       return;
     }
 
@@ -54,7 +54,7 @@ public class ArchiveScanner {
               .toList();
 
       if (!files.isEmpty()) {
-        fileRepository.saveAllAndFlush(files);
+        fileRepository.saveAll(files);
       }
       stopWatch.stop();
       log.info("Processed '{}' files in '{}' sec.", files.size(), stopWatch.getTotalTimeSeconds());
@@ -74,7 +74,6 @@ public class ArchiveScanner {
     return fileRepository.findByChecksum(checksum)
             .map(f -> f.toBuilder()
                     .path(file.toString())
-                    .size(fileAttributes.size())
                     .build())
             .orElse(File.builder()
                     .checksum(checksum)

@@ -43,7 +43,7 @@ class ArchiveScannerTest {
     sut.discoverFiles();
 
     // assert
-    verify(fileRepository, never()).saveAllAndFlush(any());
+    verify(fileRepository, never()).saveAll(any());
   }
 
   @Test
@@ -53,7 +53,7 @@ class ArchiveScannerTest {
 
     // assert
     final ArgumentCaptor<List<File>> fileArgument = ArgumentCaptor.forClass(List.class);
-    verify(fileRepository).saveAllAndFlush(fileArgument.capture());
+    verify(fileRepository).saveAll(fileArgument.capture());
     assertThat(fileArgument.getValue())
             .hasSize(1)
             .singleElement()
@@ -80,7 +80,7 @@ class ArchiveScannerTest {
 
     // assert
     final ArgumentCaptor<List<File>> fileArgument = ArgumentCaptor.forClass(List.class);
-    verify(fileRepository).saveAllAndFlush(fileArgument.capture());
+    verify(fileRepository).saveAll(fileArgument.capture());
     assertThat(fileArgument.getValue())
             .hasSize(1)
             .singleElement()

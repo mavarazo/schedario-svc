@@ -1,4 +1,7 @@
 schedario:
   archive:
     path: 'classpath:/test-archive'
-    cron: '-'
+    scanner:
+      cron: '-'
+  database:
+    cleaner: '-'
