@@ -4,4 +4,5 @@ schedario:
     scanner:
       cron: '1 * * * * *'
   database:
-    cleaner: '1 * * * * *'
+    cleaner:
+      cron: '1 * * * * *'

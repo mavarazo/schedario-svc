@@ -16,10 +16,10 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @ExtendWith(MockitoExtension.class)
-class DatabaseCleanerTest {
+class DatabaseTasksTest {
 
     @InjectMocks
-    private DatabaseCleaner sut;
+    private DatabaseTasks sut;
 
     @Mock
     private FileRepository fileRepository;
@@ -27,7 +27,7 @@ class DatabaseCleanerTest {
     @Test
     void file_no_longer_exists() {
         // arrange
-        final URL url = DatabaseCleaner.class.getResource("/test-archive/2020-Scrum-Guide-US.pdf");
+        final URL url = DatabaseTasks.class.getResource("/test-archive/2020-Scrum-Guide-US.pdf");
         final File bingo = File.builder()
                 .id(1L)
                 .path(url.getPath())
