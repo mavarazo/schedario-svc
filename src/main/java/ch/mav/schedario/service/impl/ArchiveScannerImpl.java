@@ -72,6 +72,7 @@ public class ArchiveScannerImpl implements ArchiveScanner {
                         .path(file.toString())
                         .size(fileAttributes.size())
                         .created(fileTimeToDate(fileAttributes.creationTime()))
+                        .title(getFileName(file))
                         .build());
     }
 
@@ -102,5 +103,10 @@ public class ArchiveScannerImpl implements ArchiveScanner {
         final OffsetDateTime result = fileTime.toInstant().atOffset(ZoneOffset.UTC);
         log.debug("Converted filetime '{}' to '{}'", fileTime, result);
         return result;
+    }
+
+    private String getFileName(final Path file) {
+        final String extPattern = "(?<!^)[.][^.]*$";
+        return file.getFileName().toString().replaceAll(extPattern, "");
     }
 }

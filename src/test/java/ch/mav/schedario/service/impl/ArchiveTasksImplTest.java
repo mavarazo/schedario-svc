@@ -63,7 +63,8 @@ class ArchiveTasksImplTest {
                 .returns(3106909919L, File::getChecksum)
                 .doesNotReturn(null, File::getPath)
                 .returns(254353L, File::getSize)
-                .doesNotReturn(null, File::getCreated);
+                .doesNotReturn(null, File::getCreated)
+                .returns("2020-Scrum-Guide-US", File::getTitle);
     }
 
     @Test
@@ -77,6 +78,7 @@ class ArchiveTasksImplTest {
                 .path("bingo")
                 .size(254353L)
                 .created(OffsetDateTime.MIN)
+                .title("Bongo")
                 .build())).when(fileRepository).findByChecksum(anyLong());
 
         // act
@@ -93,6 +95,7 @@ class ArchiveTasksImplTest {
                 .returns(3106909919L, File::getChecksum)
                 .doesNotReturn(null, File::getPath)
                 .returns(254353L, File::getSize)
-                .doesNotReturn(null, File::getCreated);
+                .doesNotReturn(null, File::getCreated)
+                .returns("Bongo", File::getTitle);
     }
 }
