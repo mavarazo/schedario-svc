@@ -4,9 +4,9 @@ import ch.mav.schedario.model.File;
 import ch.mav.schedario.repository.FileRepository;
 import ch.mav.schedario.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +17,6 @@ public class FileServiceImpl implements FileService {
 
   @Override
   public List<File> getFiles() {
-    return new ArrayList<>(fileRepository.findAll());
+    return fileRepository.findAll(Sort.by(Sort.Direction.ASC, "path"));
   }
 }
