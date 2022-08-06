@@ -1,7 +1,7 @@
 package ch.mav.schedario;
 
 import ch.mav.schedario.controller.FileController;
-import ch.mav.schedario.tasks.ArchiveTasks;
+import ch.mav.schedario.tasks.ArchiveTask;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,11 +16,11 @@ class SchedarioSvcApplicationTests {
   @Autowired private FileController fileController;
 
   @Autowired
-  private ArchiveTasks archiveTasks;
+  private ArchiveTask archiveTask;
 
   @Test
   void contextLoads() {
     assertThat(fileController).isNotNull();
-    assertThat(archiveTasks).isNotNull();
+    assertThat(archiveTask).isNotNull();
   }
 }

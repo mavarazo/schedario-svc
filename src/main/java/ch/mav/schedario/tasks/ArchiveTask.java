@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ArchiveTasks {
+public class ArchiveTask {
 
   @Value("${schedario.archive.path}")
   private final String archivePath;

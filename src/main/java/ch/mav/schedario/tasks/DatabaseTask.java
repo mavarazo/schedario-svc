@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class DatabaseTasks {
+public class DatabaseTask {
 
     private final FileRepository fileRepository;
 

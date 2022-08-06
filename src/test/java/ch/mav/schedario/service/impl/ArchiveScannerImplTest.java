@@ -24,9 +24,9 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ArchiveTasksImplTest {
+class ArchiveScannerImplTest {
 
-    private static final URL ARCHIVE_PATH = ArchiveTasksImplTest.class.getResource("/test-archive");
+    private static final URL ARCHIVE_PATH = ArchiveScannerImplTest.class.getResource("/test-archive");
 
     @InjectMocks
     private ArchiveScannerImpl sut;

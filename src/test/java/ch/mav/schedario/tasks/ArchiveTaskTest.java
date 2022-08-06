@@ -16,24 +16,24 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
-class ArchiveTasksTest {
+class ArchiveTaskTest {
 
-  private ArchiveTasks sut;
+  private ArchiveTask sut;
 
   @Mock
   private ArchiveScanner archiveScanner;
 
   @BeforeEach
   void setUp() {
-    final URL resource = ArchiveTasksTest.class.getResource("/test-archive");
-    sut = new ArchiveTasks(resource.getPath(), archiveScanner);
+    final URL resource = ArchiveTaskTest.class.getResource("/test-archive");
+    sut = new ArchiveTask(resource.getPath(), archiveScanner);
   }
 
   @ParameterizedTest
   @NullAndEmptySource
   void do_nothing_if_archive_path_is_missing(final String path) {
     // arrange
-    sut = new ArchiveTasks(path, archiveScanner);
+    sut = new ArchiveTask(path, archiveScanner);
 
     // act
     sut.scanArchive();
