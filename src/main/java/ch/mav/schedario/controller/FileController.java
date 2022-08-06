@@ -14,12 +14,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FileController implements V1Api {
 
-  private final FileService fileService;
+    private final FileService fileService;
 
-  private final FileMapper fileMapper;
+    private final FileMapper fileMapper;
 
-  @Override
-  public ResponseEntity<List<FileDto>> getFiles() {
-    return ResponseEntity.ok(fileService.getFiles().stream().map(fileMapper::toFileDto).toList());
-  }
+    @Override
+    public ResponseEntity<List<FileDto>> getFiles() {
+        return ResponseEntity.ok(fileService.getFiles().stream().map(fileMapper::toFileDto).toList());
+    }
+
+    @Override
+    public ResponseEntity<FileDto> getFile(final Long fileId) {
+        return fileService.getFile(fileId)
+                .map(fileMapper::toFileDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

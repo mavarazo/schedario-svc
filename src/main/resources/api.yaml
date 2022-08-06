@@ -22,17 +22,32 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FileDto'
+  /v1/files/{fileId}:
+    get:
+      description: return a file
+      tags:
+        - File
+      operationId: getFile
+      parameters:
+        - $ref: '#/components/parameters/FileIdParameter'
+      responses:
+        '200':
+          description: a file
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FileDto'
 
 components:
   parameters:
-    ProductId:
-      name: productId
+    FileIdParameter:
+      name: fileId
       in: path
       required: true
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/FileDto'
+            $ref: '#/components/schemas/FileId'
 
   responses:
     NotFound:
