@@ -1,6 +1,7 @@
 package ch.mav.schedario.service.impl;
 
 import ch.mav.schedario.model.File;
+import ch.mav.schedario.model.Status;
 import ch.mav.schedario.repository.FileRepository;
 import ch.mav.schedario.service.ArchiveScanner;
 import lombok.RequiredArgsConstructor;
@@ -68,6 +69,7 @@ public class ArchiveScannerImpl implements ArchiveScanner {
                         .path(file.toString())
                         .build())
                 .orElse(File.builder()
+                        .status(Status.NEW)
                         .checksum(checksum)
                         .path(file.toString())
                         .size(fileAttributes.size())

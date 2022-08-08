@@ -41,6 +41,8 @@ dependencies {
     implementation 'org.mapstruct:mapstruct:1.5.2.Final'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.2.Final'
 
+    implementation 'org.apache.pdfbox:pdfbox:2.0.26'
+
     runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
 

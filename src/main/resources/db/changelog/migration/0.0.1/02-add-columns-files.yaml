@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: '0.0.1-02-1-add-status-column'
+      author: mav
+      changes:
+        - addColumn:
+            tableName: files
+            columns:
+              - column:
+                  name: status
+                  type: VARCHAR(55)
+                  constraints:
+                    nullable: false
+                  defaultValue: NEW
+  - changeSet:
+      id: '0.0.1-02-2-add-thumbnail-column'
+      author: mav
+      changes:
+        - addColumn:
+            tableName: files
+            columns:
+              - column:
+                  name: thumbnail
+                  type: BLOB

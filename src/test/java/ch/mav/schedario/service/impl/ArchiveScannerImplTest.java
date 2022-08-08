@@ -1,6 +1,7 @@
 package ch.mav.schedario.service.impl;
 
 import ch.mav.schedario.model.File;
+import ch.mav.schedario.model.Status;
 import ch.mav.schedario.repository.FileRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
@@ -60,6 +61,7 @@ class ArchiveScannerImplTest {
         assertThat(fileArgument.getValue())
                 .hasSize(1)
                 .singleElement()
+                .returns(Status.NEW, File::getStatus)
                 .returns(3106909919L, File::getChecksum)
                 .doesNotReturn(null, File::getPath)
                 .returns(254353L, File::getSize)
@@ -73,6 +75,7 @@ class ArchiveScannerImplTest {
         // arrange
         doReturn(Optional.of(File.builder()
                 .id(1L)
+                .status(Status.COMPLETE)
                 .createdDate(OffsetDateTime.MAX)
                 .checksum(3106909919L)
                 .path("bingo")
@@ -91,6 +94,7 @@ class ArchiveScannerImplTest {
                 .hasSize(1)
                 .singleElement()
                 .returns(1L, File::getId)
+                .returns(Status.COMPLETE, File::getStatus)
                 .returns(OffsetDateTime.MAX, File::getCreatedDate)
                 .returns(3106909919L, File::getChecksum)
                 .doesNotReturn(null, File::getPath)

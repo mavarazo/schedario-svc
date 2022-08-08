@@ -22,6 +22,11 @@ public class File {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
+  @Column(name = "status")
+  @Enumerated(EnumType.STRING)
+  @Builder.Default
+  private Status status = Status.NEW;
+
   @Column(name = "created_date", nullable = false, updatable = false)
   @CreatedDate
   private OffsetDateTime createdDate;
@@ -47,4 +52,8 @@ public class File {
 
   @Column(name = "created")
   private OffsetDateTime created;
+
+  @Column(name = "thumbnail")
+  @Lob
+  private byte[] thumbnail;
 }

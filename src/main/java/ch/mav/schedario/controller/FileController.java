@@ -5,6 +5,8 @@ import ch.mav.schedario.api.model.FileDto;
 import ch.mav.schedario.mapper.FileMapper;
 import ch.mav.schedario.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,6 +30,13 @@ public class FileController implements V1Api {
         return fileService.getFile(fileId)
                 .map(fileMapper::toFileDto)
                 .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public ResponseEntity<Resource> getThumbnail(final Long fileId) {
+        return fileService.getThumbnail(fileId)
+                .map(f -> ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(f))
                 .orElse(ResponseEntity.notFound().build());
     }
 }

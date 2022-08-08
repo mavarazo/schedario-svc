@@ -37,6 +37,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileDto'
+  /v1/files/{fileId}/thumbnail:
+    get:
+      description: return a thumbnail of a file
+      tags:
+        - File
+      operationId: getThumbnail
+      parameters:
+        - $ref: '#/components/parameters/FileIdParameter'
+      responses:
+        '200':
+          description: a thumbnail
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
 
 components:
   parameters:
