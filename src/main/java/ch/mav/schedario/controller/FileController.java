@@ -39,4 +39,16 @@ public class FileController implements V1Api {
                 .map(f -> ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(f))
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @Override
+    public ResponseEntity<Void> changeFile(final Long fileId, final FileDto fileDto) {
+        return fileService.getFile(fileId)
+                .map(file -> {
+                    fileMapper.updateFile(file, fileDto);
+                    return file;
+                })
+                .map(fileService::updateFile)
+                .map(f -> ResponseEntity.ok().<Void>build())
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

@@ -105,4 +105,46 @@ class SchedarioSvcIntegrationTest {
               .isNotNull();
     }
   }
+
+  @Nested
+  class ChangeFileTests {
+
+    @Test
+    void status404() {
+      // arrange
+      final FileDto fileDto = new FileDto()
+              .title("Bingo")
+              .notes("Bongo");
+
+      // act
+      final ResponseEntity<Void> response =
+              restTemplate.exchange("/v1/files/99", HttpMethod.PUT, new HttpEntity<>(fileDto), Void.class);
+
+      // assert
+      assertThat(response)
+              .returns(HttpStatus.NOT_FOUND, ResponseEntity::getStatusCode);
+    }
+
+    @Test
+    void status200() {
+      // arrange
+      final FileDto fileDto = new FileDto()
+              .title("Bingo")
+              .notes("Bongo");
+
+      // act
+      final ResponseEntity<Resource> response =
+              restTemplate.exchange("/v1/files/1", HttpMethod.PUT, new HttpEntity<>(fileDto), Resource.class);
+
+      // assert
+      assertThat(response)
+              .returns(HttpStatus.OK, ResponseEntity::getStatusCode)
+              .extracting(ResponseEntity::getBody)
+              .isNull();
+      assertThat(restTemplate.exchange("/v1/files/1", HttpMethod.GET, new HttpEntity<>(fileDto), FileDto.class))
+              .extracting(ResponseEntity::getBody)
+              .returns("Bingo", FileDto::getTitle)
+              .returns("Bongo", FileDto::getNotes);
+    }
+  }
 }

@@ -35,4 +35,9 @@ public class FileServiceImpl implements FileService {
             .filter(f -> Objects.nonNull(f.getThumbnail()) && f.getThumbnail().length > 0)
             .map(f -> new ByteArrayResource(f.getThumbnail()));
   }
+
+  @Override
+  public File updateFile(final File file) {
+    return fileRepository.save(file);
+  }
 }

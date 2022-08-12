@@ -13,4 +13,6 @@ public interface FileService {
     Optional<File> getFile(long id);
 
     Optional<Resource> getThumbnail(long id);
+
+    File updateFile(File file);
 }

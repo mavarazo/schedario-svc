@@ -37,6 +37,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileDto'
+    put:
+      description: update a file
+      tags:
+        - File
+      operationId: changeFile
+      parameters:
+        - $ref: '#/components/parameters/FileIdParameter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FileDto'
+      responses:
+        '201':
+          description: changed
   /v1/files/{fileId}/thumbnail:
     get:
       description: return a thumbnail of a file
@@ -87,17 +103,22 @@ components:
         created_date:
           type: string
           format: date-time
+          readOnly: true
         modified_date:
           type: string
           format: date-time
+          readOnly: true
         title:
           type: string
         notes:
           type: string
         path:
           type: string
+          readOnly: true
         size:
           type: integer
+          readOnly: true
         created:
           type: string
           format: date-time
+          readOnly: true
