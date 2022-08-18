@@ -7,6 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -37,6 +38,13 @@ public class File {
 
   @Column(name = "title")
   private String title;
+
+  @ManyToMany
+  @JoinTable(
+          name = "files_tags",
+          joinColumns = @JoinColumn(name = "file_id"),
+          inverseJoinColumns = @JoinColumn(name = "tag_id"))
+  private Set<Tag> tags;
 
   @Column(name = "notes")
   private String notes;

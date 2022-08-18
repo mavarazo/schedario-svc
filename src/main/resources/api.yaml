@@ -53,6 +53,7 @@ paths:
       responses:
         '201':
           description: changed
+
   /v1/files/{fileId}/thumbnail:
     get:
       description: return a thumbnail of a file
@@ -70,6 +71,55 @@ paths:
                 type: string
                 format: binary
 
+  /v1/files/{fileId}/tags:
+    get:
+      description: return all tags for file
+      tags:
+        - File
+        - Tag
+      operationId: getTagsForFile
+      parameters:
+        - $ref: '#/components/parameters/FileIdParameter'
+      responses:
+        '200':
+          description: a list of tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TagDto'
+    put:
+      description: put tag for file
+      tags:
+        - File
+        - Tag
+      operationId: addTagForFile
+      parameters:
+        - $ref: '#/components/parameters/FileIdParameter'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TagDto'
+      responses:
+        '200':
+          description: added
+  /v1/files/{fileId}/tags/{tagId}:
+    delete:
+      description: remove tag for file
+      tags:
+        - File
+        - Tag
+      operationId: deleteTagFromFile
+      parameters:
+        - $ref: '#/components/parameters/FileIdParameter'
+        - $ref: '#/components/parameters/TagIdParameter'
+      responses:
+        '200':
+          description: deleted
+
 components:
   parameters:
     FileIdParameter:
@@ -80,6 +130,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/FileId'
+
+    TagIdParameter:
+      name: tagId
+      in: path
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TagId'
 
   responses:
     NotFound:
@@ -95,19 +154,25 @@ components:
       format: int64
       readOnly: true
 
+    TagId:
+      type: integer
+      format: int64
+      readOnly: true
+
+    Date:
+      type: string
+      format: date-time
+      readOnly: true
+
     FileDto:
       type: object
       properties:
         id:
           $ref: '#/components/schemas/FileId'
         created_date:
-          type: string
-          format: date-time
-          readOnly: true
+          $ref: '#/components/schemas/Date'
         modified_date:
-          type: string
-          format: date-time
-          readOnly: true
+          $ref: '#/components/schemas/Date'
         title:
           type: string
         notes:
@@ -119,6 +184,16 @@ components:
           type: integer
           readOnly: true
         created:
+          $ref: '#/components/schemas/Date'
+
+    TagDto:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/TagId'
+        created_date:
+          $ref: '#/components/schemas/Date'
+        modified_date:
+          $ref: '#/components/schemas/Date'
+        title:
           type: string
-          format: date-time
-          readOnly: true

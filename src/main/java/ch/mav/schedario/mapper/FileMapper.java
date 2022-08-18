@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.ReportingPolicy;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring")
+@Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring", uses = DateMapper.class)
 public interface FileMapper {
 
   FileDto toFileDto(File file);
@@ -21,5 +21,6 @@ public interface FileMapper {
   @Mapping(target = "size", ignore = true)
   @Mapping(target = "created", ignore = true)
   @Mapping(target = "thumbnail", ignore = true)
+  @Mapping(target = "tags", ignore = true)
   void updateFile(@MappingTarget File file, FileDto fileDto);
 }
