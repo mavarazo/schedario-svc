@@ -6,6 +6,7 @@ import ch.mav.schedario.api.model.TagDto;
 import ch.mav.schedario.mapper.FileMapper;
 import ch.mav.schedario.mapper.TagMapper;
 import ch.mav.schedario.service.FileService;
+import ch.mav.schedario.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -19,6 +20,7 @@ import java.util.List;
 public class FileController implements V1Api {
 
     private final FileService fileService;
+    private final TagService tagService;
 
     private final FileMapper fileMapper;
     private final TagMapper tagMapper;
@@ -80,5 +82,10 @@ public class FileController implements V1Api {
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @Override
+    public ResponseEntity<List<TagDto>> getTags() {
+        return ResponseEntity.ok(tagService.getTags().stream().map(tagMapper::toTagDto).toList());
     }
 }

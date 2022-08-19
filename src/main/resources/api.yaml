@@ -22,6 +22,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/FileDto'
+
   /v1/files/{fileId}:
     get:
       description: return a file
@@ -37,6 +38,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/FileDto'
+
     put:
       description: update a file
       tags:
@@ -89,6 +91,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/TagDto'
+
     put:
       description: put tag for file
       tags:
@@ -106,6 +109,7 @@ paths:
       responses:
         '200':
           description: added
+
   /v1/files/{fileId}/tags/{tagId}:
     delete:
       description: remove tag for file
@@ -119,6 +123,23 @@ paths:
       responses:
         '200':
           description: deleted
+
+  /v1/tags:
+    get:
+      description: return all tags
+      tags:
+        - Tag
+      operationId: getTags
+      responses:
+        '200':
+          description: a list of tags
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TagDto'
+
 
 components:
   parameters:

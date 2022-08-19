@@ -300,4 +300,22 @@ class SchedarioSvcIntegrationTest {
               .isEmpty();
     }
   }
+
+  @Nested
+  class GetTagsTest {
+
+    @Test
+    void status200() {
+      // act
+      final ResponseEntity<TagDto[]> response =
+              restTemplate.exchange("/v1/tags", HttpMethod.GET, HttpEntity.EMPTY, TagDto[].class);
+
+      // assert
+      assertThat(response)
+              .returns(HttpStatus.OK, ResponseEntity::getStatusCode)
+              .extracting(ResponseEntity::getBody, InstanceOfAssertFactories.array(TagDto[].class))
+              .isNotNull()
+              .hasSize(2);
+    }
+  }
 }
