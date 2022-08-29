@@ -6,14 +6,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.URL;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DatabaseTaskTest {
@@ -36,13 +34,13 @@ class DatabaseTaskTest {
                 .id(2L)
                 .path("bongo")
                 .build();
-        Mockito.doReturn(List.of(bingo, bongo)).when(fileRepository).findAll();
+        doReturn(List.of(bingo, bongo)).when(fileRepository).findAll();
 
         // act
         sut.clean();
 
         // assert
-        verify(fileRepository).delete(bongo);
+        verify(fileRepository).deleteById(2L);
         verifyNoMoreInteractions(fileRepository);
     }
 }

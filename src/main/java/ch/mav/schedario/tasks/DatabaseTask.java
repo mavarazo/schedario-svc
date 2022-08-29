@@ -26,7 +26,7 @@ public class DatabaseTask {
                 .filter(file -> Files.notExists(Paths.get(file.getPath())))
                 .forEach(file -> {
                     log.info("File '{}' does not exists '{}'.", file.getId(), file.getPath());
-                    fileRepository.delete(file);
+                    fileRepository.deleteById(file.getId());
                 });
         stopWatch.stop();
         log.info("Processed in '{}' sec.", stopWatch.getTotalTimeSeconds());
