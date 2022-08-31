@@ -6,6 +6,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
+import java.util.List;
+
 @Mapper(unmappedTargetPolicy = ReportingPolicy.ERROR, componentModel = "spring", uses = DateMapper.class)
 public interface TagMapper {
 
@@ -14,4 +16,6 @@ public interface TagMapper {
     @Mapping(target = "modifiedDate", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     Tag toTag(TagDto tag);
+
+    List<Tag> toTags(List<TagDto> tags);
 }

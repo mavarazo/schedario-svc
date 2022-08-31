@@ -14,6 +14,8 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -183,18 +185,18 @@ class SchedarioSvcIntegrationTest {
   }
 
   @Nested
-  class AddTagForFileTest {
+  class ChangeTagsForFileTest {
 
     @Test
     void status404() {
       // arrange
-      final TagDto tag = new TagDto()
+      final List<TagDto> tags = List.of(new TagDto()
               .id(4L)
-              .title("Master");
+              .title("Master"));
 
       // act
       final ResponseEntity<Void> response =
-              restTemplate.exchange("/v1/files/99/tags", HttpMethod.PUT, new HttpEntity<>(tag), Void.class);
+              restTemplate.exchange("/v1/files/99/tags", HttpMethod.PUT, new HttpEntity<>(tags), Void.class);
 
       // assert
       assertThat(response)
@@ -205,13 +207,13 @@ class SchedarioSvcIntegrationTest {
     @DirtiesContext
     void status200_assign_existing_Tag_by_id() {
       // arrange
-      final TagDto tag = new TagDto()
+      final List<TagDto> tags = List.of(new TagDto()
               .id(4L)
-              .title("Scrum Master");
+              .title("Scrum Master"));
 
       // act
       final ResponseEntity<Void> response =
-              restTemplate.exchange("/v1/files/1/tags", HttpMethod.PUT, new HttpEntity<>(tag), Void.class);
+              restTemplate.exchange("/v1/files/1/tags", HttpMethod.PUT, new HttpEntity<>(tags), Void.class);
 
       // assert
       assertThat(response)
@@ -220,6 +222,7 @@ class SchedarioSvcIntegrationTest {
               .isNull();
       assertThat(restTemplate.exchange("/v1/files/1/tags", HttpMethod.GET, HttpEntity.EMPTY, TagDto[].class))
               .extracting(ResponseEntity::getBody, InstanceOfAssertFactories.array(TagDto[].class))
+              .hasSize(1)
               .filteredOn(t -> t.getTitle().equals("Scrum Master"))
               .hasSize(1);
     }
@@ -228,12 +231,12 @@ class SchedarioSvcIntegrationTest {
     @DirtiesContext
     void status200_assign_existing_Tag_by_title() {
       // arrange
-      final TagDto tag = new TagDto()
-              .title("Scrum Master");
+      final List<TagDto> tags = List.of(new TagDto()
+              .title("Scrum Master"));
 
       // act
       final ResponseEntity<Void> response =
-              restTemplate.exchange("/v1/files/1/tags", HttpMethod.PUT, new HttpEntity<>(tag), Void.class);
+              restTemplate.exchange("/v1/files/1/tags", HttpMethod.PUT, new HttpEntity<>(tags), Void.class);
 
       // assert
       assertThat(response)
@@ -242,6 +245,7 @@ class SchedarioSvcIntegrationTest {
               .isNull();
       assertThat(restTemplate.exchange("/v1/files/1/tags", HttpMethod.GET, HttpEntity.EMPTY, TagDto[].class))
               .extracting(ResponseEntity::getBody, InstanceOfAssertFactories.array(TagDto[].class))
+              .hasSize(1)
               .filteredOn(t -> t.getTitle().equals("Scrum Master"))
               .hasSize(1);
     }
@@ -250,12 +254,13 @@ class SchedarioSvcIntegrationTest {
     @DirtiesContext
     void status200_assign_new_Tag() {
       // arrange
-      final TagDto tag = new TagDto()
-              .title("Developer");
+      final List<TagDto> tags = List.of(
+              new TagDto().id(4L),
+              new TagDto().title("Developer"));
 
       // act
       final ResponseEntity<Void> response =
-              restTemplate.exchange("/v1/files/1/tags", HttpMethod.PUT, new HttpEntity<>(tag), Void.class);
+              restTemplate.exchange("/v1/files/1/tags", HttpMethod.PUT, new HttpEntity<>(tags), Void.class);
 
       // assert
       assertThat(response)
@@ -264,40 +269,7 @@ class SchedarioSvcIntegrationTest {
               .isNull();
       assertThat(restTemplate.exchange("/v1/files/1/tags", HttpMethod.GET, HttpEntity.EMPTY, TagDto[].class))
               .extracting(ResponseEntity::getBody, InstanceOfAssertFactories.array(TagDto[].class))
-              .filteredOn(t -> t.getTitle().equals("Developer"))
-              .hasSize(1);
-    }
-  }
-
-  @Nested
-  class DeleteTagFromFileTest {
-
-    @Test
-    void status404() {
-      // act
-      final ResponseEntity<Void> response =
-              restTemplate.exchange("/v1/files/99/tags/4", HttpMethod.DELETE, HttpEntity.EMPTY, Void.class);
-
-      // assert
-      assertThat(response)
-              .returns(HttpStatus.NOT_FOUND, ResponseEntity::getStatusCode);
-    }
-
-    @Test
-    @DirtiesContext
-    void status200() {
-      // act
-      final ResponseEntity<Void> response =
-              restTemplate.exchange("/v1/files/1/tags/2", HttpMethod.DELETE, HttpEntity.EMPTY, Void.class);
-
-      // assert
-      assertThat(response)
-              .returns(HttpStatus.OK, ResponseEntity::getStatusCode)
-              .extracting(ResponseEntity::getBody)
-              .isNull();
-      assertThat(restTemplate.exchange("/v1/files/1/tags", HttpMethod.GET, HttpEntity.EMPTY, TagDto[].class))
-              .extracting(ResponseEntity::getBody, InstanceOfAssertFactories.array(TagDto[].class))
-              .isEmpty();
+              .hasSize(2);
     }
   }
 

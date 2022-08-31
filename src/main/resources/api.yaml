@@ -93,11 +93,11 @@ paths:
                   $ref: '#/components/schemas/TagDto'
 
     put:
-      description: put tag for file
+      description: change tags for file
       tags:
         - File
         - Tag
-      operationId: addTagForFile
+      operationId: changeTagsForFile
       parameters:
         - $ref: '#/components/parameters/FileIdParameter'
       requestBody:
@@ -105,24 +105,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/TagDto'
+              type: array
+              items:
+                $ref: '#/components/schemas/TagDto'
       responses:
         '200':
-          description: added
-
-  /v1/files/{fileId}/tags/{tagId}:
-    delete:
-      description: remove tag for file
-      tags:
-        - File
-        - Tag
-      operationId: deleteTagFromFile
-      parameters:
-        - $ref: '#/components/parameters/FileIdParameter'
-        - $ref: '#/components/parameters/TagIdParameter'
-      responses:
-        '200':
-          description: deleted
+          description: changed
 
   /v1/tags:
     get:

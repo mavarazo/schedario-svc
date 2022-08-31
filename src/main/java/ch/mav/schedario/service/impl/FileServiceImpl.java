@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +46,19 @@ public class FileServiceImpl implements FileService {
         return fileRepository.findById(id)
                 .map(File::getTags)
                 .orElse(Collections.emptySet());
+    }
+
+    @Override
+    public void changeTagsForFile(final File file, final List<Tag> tags) {
+        final Set<Tag> persistentTags = tags.stream()
+                .map(tag -> Optional.ofNullable(tag.getId())
+                        .map(tagRepository::findById)
+                        .orElseGet(() -> tagRepository.findByTitle(tag.getTitle()))
+                        .orElseGet(() -> tagRepository.save(Tag.builder().title(tag.getTitle()).build())))
+                .collect(Collectors.toUnmodifiableSet());
+        file.getTags().clear();
+        file.getTags().addAll(persistentTags);
+        fileRepository.save(file);
     }
 
     @Override

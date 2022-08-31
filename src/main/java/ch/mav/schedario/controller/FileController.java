@@ -65,23 +65,14 @@ public class FileController implements V1Api {
     }
 
     @Override
-    public ResponseEntity<Void> addTagForFile(final Long fileId, final TagDto tagDto) {
+    public ResponseEntity<Void> changeTagsForFile(final Long fileId, final List<TagDto> tagDto) {
         return fileService.getFile(fileId)
                 .map(f -> {
-                    fileService.addTagForFile(f, tagMapper.toTag(tagDto));
+                    fileService.changeTagsForFile(f, tagMapper.toTags(tagDto));
                     return ResponseEntity.ok().<Void>build();
                 })
                 .orElse(ResponseEntity.notFound().build());
-    }
 
-    @Override
-    public ResponseEntity<Void> deleteTagFromFile(final Long fileId, final Long tagId) {
-        return fileService.getFile(fileId)
-                .map(f -> {
-                    fileService.deleteTagFromFile(f, tagId);
-                    return ResponseEntity.ok().<Void>build();
-                })
-                .orElse(ResponseEntity.notFound().build());
     }
 
     @Override

@@ -20,6 +20,8 @@ public interface FileService {
 
     Set<Tag> getTagsForFile(long id);
 
+    void changeTagsForFile(File file, List<Tag> tags);
+
     void addTagForFile(File file, Tag tag);
 
     void deleteTagFromFile(File file, long tagId);
