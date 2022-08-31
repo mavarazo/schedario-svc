@@ -1,7 +1,6 @@
 package ch.mav.schedario.service.impl;
 
 import ch.mav.schedario.model.File;
-import ch.mav.schedario.model.Status;
 import ch.mav.schedario.repository.FileRepository;
 import ch.mav.schedario.service.FileProcessor;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +16,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -29,9 +29,11 @@ public class FileProcessorImpl implements FileProcessor {
 
     @Override
     public void updateFile(final File file) {
-        file.setThumbnail(generateThumbnail(file));
-        file.setStatus(Status.COMPLETE);
-        fileRepository.save(file);
+        if (Objects.isNull(file.getThumbnail())) {
+            file.setThumbnail(generateThumbnail(file));
+            // file.setStatus(Status.COMPLETE);
+            fileRepository.save(file);
+        }
     }
 
     private byte[] generateThumbnail(final File file) {
