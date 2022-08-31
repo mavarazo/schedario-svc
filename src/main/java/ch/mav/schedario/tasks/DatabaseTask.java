@@ -9,6 +9,7 @@ import org.springframework.util.StopWatch;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Component
 @RequiredArgsConstructor
@@ -22,13 +23,15 @@ public class DatabaseTask {
         log.info("Clean database from files which no longer exists.");
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
+        final AtomicInteger filesDeleted = new AtomicInteger();
         fileRepository.findAll().stream()
                 .filter(file -> Files.notExists(Paths.get(file.getPath())))
                 .forEach(file -> {
                     log.info("File '{}' does not exists '{}'.", file.getId(), file.getPath());
                     fileRepository.deleteById(file.getId());
+                    filesDeleted.incrementAndGet();
                 });
         stopWatch.stop();
-        log.info("Processed in '{}' sec.", stopWatch.getTotalTimeSeconds());
+        log.info("Cleaned '{}' Files in '{}' sec.", filesDeleted.get(), stopWatch.getTotalTimeSeconds());
     }
 }

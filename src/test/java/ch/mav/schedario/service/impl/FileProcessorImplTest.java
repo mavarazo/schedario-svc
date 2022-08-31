@@ -48,6 +48,7 @@ class FileProcessorImplTest {
         final ArgumentCaptor<File> fileArgument = ArgumentCaptor.forClass(File.class);
         verify(fileRepository).save(fileArgument.capture());
         assertThat(fileArgument.getValue())
+                .returns(Status.COMPLETE, File::getStatus)
                 .doesNotReturn(null, File::getThumbnail);
     }
 }

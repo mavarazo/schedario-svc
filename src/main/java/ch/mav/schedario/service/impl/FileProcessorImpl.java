@@ -1,6 +1,7 @@
 package ch.mav.schedario.service.impl;
 
 import ch.mav.schedario.model.File;
+import ch.mav.schedario.model.Status;
 import ch.mav.schedario.repository.FileRepository;
 import ch.mav.schedario.service.FileProcessor;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +29,9 @@ public class FileProcessorImpl implements FileProcessor {
 
     @Override
     public void updateFile(final File file) {
-        fileRepository.save(
-                file.toBuilder()
-                        .thumbnail(generateThumbnail(file))
-                        .build());
+        file.setThumbnail(generateThumbnail(file));
+        file.setStatus(Status.COMPLETE);
+        fileRepository.save(file);
     }
 
     private byte[] generateThumbnail(final File file) {
