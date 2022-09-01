@@ -20,14 +20,14 @@ public class FileTask {
     private final FileRepository fileRepository;
     private final FileProcessor fileProcessor;
 
-    @Scheduled(cron = "${schedario.database.cleaner.cron}")
+    @Scheduled(cron = "${schedario.database.updater.cron}")
     public void process() {
-        log.info("Process files.");
+        log.info("Update files.");
         final StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         final List<File> newFiles = fileRepository.findAllByStatus(Status.NEW);
         newFiles.forEach(fileProcessor::updateFile);
         stopWatch.stop();
-        log.info("Processed '{}' Files in '{}' sec.", newFiles.size(), stopWatch.getTotalTimeSeconds());
+        log.info("Updated '{}' Files in '{}' sec.", newFiles.size(), stopWatch.getTotalTimeSeconds());
     }
 }

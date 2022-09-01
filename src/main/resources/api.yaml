@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
-  title: Prestito
-  description: Prestito
+  title: Schedario
+  description: Schedario
   version: 1.0.0
 tags:
   - File

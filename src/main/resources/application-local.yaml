@@ -6,3 +6,5 @@ schedario:
   database:
     cleaner:
       cron: '1 * * * * *'
+    updater:
+      cron: '1 * * * * *'
