@@ -21,4 +21,4 @@ databaseChangeLog:
             columns:
               - column:
                   name: thumbnail
-                  type: BLOB
+                  type: bytea
